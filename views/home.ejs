@@ -3,10 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@100;200&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <title>Todo App</title>
 </head>
 <body>
-    <h1>Todo App</h1>
+    <h1 class="font-effect-neon">Todo App</h1>
+    <hr>
+    <div class="mainBody">
+        <div class="formBody">
+            <form action="http://localhost:8000" method="POST">
+                <div class="input descriptionDiv">
+                    <label for="description">DESCRIPTION</label>
+                    <input type="text" id="description" name="description" placeholder="What do you need to do?">
+                </div>
+                <div class="group">
+                    <div class="input categoryDiv">
+                        <label for="category">CATEGORY</label>
+                        <select name="category" id="category">
+                            <option style="display:none">Choose a Category</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
+                            <option value="School">School</option>
+                            <option value="Cleaning">Cleaning</option>
+                            <option value="Others">Others</option>
+                          </select>
+                    </div>
+                    <div class="input dateDiv">
+                        <label for="date">DUE DATE</label>
+                        <input type="date" id="date" name="date" placeholder="dd/mm/yyyy">
+                    </div>
+
+                </div>
+                <div class="buttons">
+                    <button type="submit" id="add-task">ADD TASK</button>
+                    <button type="button" id="delete-task">DELETE TASK</button>
+                </div>
+
+            </form>
+        </div>
+        <div id="displayTasks" class="displayTasks">
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>

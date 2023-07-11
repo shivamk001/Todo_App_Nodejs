@@ -1,3 +1,42 @@
-h1{
+body {
+    font-family: "Pathway Extreme";
+  }
+
+  h1{
     text-align: center;
-}
+    color: grey;
+    font-size: 32px;
+  }
+  .formBody{
+    font-size: 18px;
+  }
+  .formBody input{
+    border: none;
+    outline: none;
+  }
+  .formBody select{
+    border: none;
+    outline: none;
+  }
+  .group{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+  }
+
+  .input{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+
+  .categoryDiv{
+    border-right: 2px solid lightgray;
+    margin: 5px;
+  }
+
+  .dateDiv{
+    margin: 5px;
+  }
