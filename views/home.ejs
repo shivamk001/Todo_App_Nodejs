@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@100;200&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ca58c8957e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/style.css">
     <title>Todo App</title>
 </head>
@@ -24,11 +25,11 @@
                         <label for="category">CATEGORY</label>
                         <select name="category" id="category">
                             <option style="display:none">Choose a Category</option>
-                            <option value="Personal">Personal</option>
-                            <option value="Work">Work</option>
-                            <option value="School">School</option>
-                            <option value="Cleaning">Cleaning</option>
-                            <option value="Others">Others</option>
+                            <option value="personal">Personal</option>
+                            <option value="work">Work</option>
+                            <option value="school">School</option>
+                            <option value="cleaning">Cleaning</option>
+                            <option value="others">Others</option>
                           </select>
                     </div>
                     <div class="input dateDiv">
@@ -39,14 +40,43 @@
                 </div>
                 <div class="buttons">
                     <button type="submit" id="add-task">ADD TASK</button>
-                    <button type="button" id="delete-task">DELETE TASK</button>
+                    <!-- <button type="button" id="delete-task">DELETE TASK</button> -->
                 </div>
 
             </form>
         </div>
-        <div id="displayTasks" class="displayTasks">
+        <div>
 
         </div>
+
+        <div id="taskContainer">
+               
+
+            <label>Sort By</label>   
+            <select name="Sort By" id="sortby">
+                <option style="display:none">Sort By</option>
+                <option id="latestfirst" value="latestfirst">Latest First</option>
+                <option id="oldestfirst" value="oldestfirst">Oldest First</option>
+            </select>
+
+            <label>Display</label>
+            <select name="Display By Category" id="displaycategorywise">
+                <option style="display: none;">All</option>
+                <option id="all" value="all">All</option>
+                <option id="work" value="work">Work</option>
+                <option id="personal" value="personal">Personal</option>
+                <option id="school" value="school">School</option>
+                <option id="cleaning" value="cleaning">Cleaning</option>
+                <option id="others" value="others">Others</option>
+            </select>
+
+            <button type="button" id="delete-all-tasks">Delete all Tasks</button>
+            
+            <h3>My Tasks</h3>
+            <div id="displayTasks" class="displayTasks">
+            </div>
+        </div>
+
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="/js/script.js"></script>

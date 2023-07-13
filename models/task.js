@@ -11,7 +11,7 @@ const taskSchema=mongoose.Schema({
     },
     category:{
         type: String,
-        enum: ['Personal', 'Work', 'School', 'Cleaning', 'Others'],
+        enum: ['personal', 'work', 'school', 'cleaning', 'others'],
         require: true
     },
     dueDate:{
@@ -19,7 +19,7 @@ const taskSchema=mongoose.Schema({
         require: true
     }
 },{
-    timestamp: true
+    timestamps: true
 })
 
 const Task=mongoose.model('Task', taskSchema)
