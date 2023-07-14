@@ -63,3 +63,9 @@ body {
   .delete-button{
     cursor: pointer;
   }
+
+  #buttons_dropdowns{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }

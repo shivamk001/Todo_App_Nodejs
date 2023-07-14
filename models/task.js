@@ -14,6 +14,11 @@ const taskSchema=mongoose.Schema({
         enum: ['personal', 'work', 'school', 'cleaning', 'others'],
         require: true
     },
+    status:{
+        type: String,
+        enum: ['Completed', 'In Progress', 'Pending'],
+        default: 'In Progress'
+    },
     dueDate:{
         type: Date,
         require: true

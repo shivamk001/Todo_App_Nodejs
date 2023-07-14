@@ -75,7 +75,7 @@ module.exports.deleteAllTasks=async (req, res)=>{
 
 module.exports.allTasks=async (req, res)=>{
     try{
-        console.log('ALL TASKS req.body:', req.query)
+        //console.log('ALL TASKS req.body:', req.query)
         let sortBy=req.query.sortBy
         let allTasks=null;
         if(sortBy==undefined || sortBy=='latestfirst'){

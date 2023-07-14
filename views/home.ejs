@@ -45,38 +45,57 @@
 
             </form>
         </div>
-        <div>
-
-        </div>
 
         <div id="taskContainer">
                
+            <div id="buttons_dropdowns">
+                <label>Sort By</label>   
+                <select name="Sort By" id="sortby">
+                    <option style="display:none">Sort By</option>
+                    <option id="latestfirst" value="latestfirst">Latest First</option>
+                    <option id="oldestfirst" value="oldestfirst">Oldest First</option>
+                </select>
+    
+                <label>Display</label>
+                <select name="Display By Category" id="displaycategorywise">
+                    <option style="display: none;">All</option>
+                    <option id="all" value="all">All</option>
+                    <option id="work" value="work">Work</option>
+                    <option id="personal" value="personal">Personal</option>
+                    <option id="school" value="school">School</option>
+                    <option id="cleaning" value="cleaning">Cleaning</option>
+                    <option id="others" value="others">Others</option>
+                </select>
+    
+                <button type="button" id="delete-all-tasks">Delete all Tasks</button>
+            </div>
 
-            <label>Sort By</label>   
-            <select name="Sort By" id="sortby">
-                <option style="display:none">Sort By</option>
-                <option id="latestfirst" value="latestfirst">Latest First</option>
-                <option id="oldestfirst" value="oldestfirst">Oldest First</option>
-            </select>
-
-            <label>Display</label>
-            <select name="Display By Category" id="displaycategorywise">
-                <option style="display: none;">All</option>
-                <option id="all" value="all">All</option>
-                <option id="work" value="work">Work</option>
-                <option id="personal" value="personal">Personal</option>
-                <option id="school" value="school">School</option>
-                <option id="cleaning" value="cleaning">Cleaning</option>
-                <option id="others" value="others">Others</option>
-            </select>
-
-            <button type="button" id="delete-all-tasks">Delete all Tasks</button>
             
-            <h3>My Tasks</h3>
+            <div id="heading"><h3>My Tasks</h3></div>
+
             <div id="displayTasks" class="displayTasks">
+                <table id="taskTable">
+                    <thead id="taskTableHead">
+                        <tr>
+                            <th>Select</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                            <th>Due Date</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskTableBody">
+
+                    </tbody>
+                </table>
             </div>
         </div>
 
+        <div id="changeStatusBox" style="height: 200px; width: 200px; border: 2px solid black; background-color: aqua; display: none;">
+            Hi
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="/js/script.js"></script>

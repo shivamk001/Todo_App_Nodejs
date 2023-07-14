@@ -8,23 +8,22 @@ input.addEventListener('click',()=>{
 
 //display all tasks
 function displayAllTasks(tasks){
-    $(`#displayTasks`).empty()
+    $(`#taskTableBody`).empty()
     console.log('ALL TASKS:', tasks)
     //let tasks=data.allTasks
 
     tasks.forEach(task=>{
-        let div=$('<div>', { id: task._id }).addClass('taskcard')
-        div.append($(`
-            <h4 style="text-align: center">Task: ${task.description}</h4>
-            <p>Created At: ${task.createdAt.substring(0,16)}</p>
-            <p>Due Date: ${task.dueDate.substring(0, 10)}</p>
-            <small>Category: ${task.category}
-            </small>`
-        ))
-        let deleteButton=$(`<button type="button" class="delete-button" data-id="${task._id}" id="delete-button-${task._id}">X</button>`)
-        //$(`delete-button-${task._id}`).click(deleteTask)
-        div.append(deleteButton)
-        $('#displayTasks').append(div)
+        let row=$('<tr>', { id: task._id }).addClass('taskRow')
+        row.append($(`
+            <td> <input type="checkbox" class="checkbox" data-id="${task._id}" name="checkbox"></td>
+            <td><h4 style="text-align: center"> ${task.description}</h4></td>
+            <td><small>${task.category}</small></td>
+            <td><small>${task.status}</small></td>
+            <td><p>${task.createdAt.substring(0,16)}</p></td>
+            <td><p>${task.dueDate.substring(0, 10)}</p></td>
+            <td><button type="button" class="delete-button" data-id="${task._id}" id="delete-button-${task._id}">X</button></td>
+        `))
+        $('#taskTableBody').append(row)
     })
 }
 
@@ -117,6 +116,24 @@ async function displayCategorywise(e){
 }
 
 
+//change status
+function changeStatus(e){
+    if($(this).is(":checked")){
+        console.log("Checkbox is checked.");
+        //$('#changeStatusBox').show()
+        $('#changeStatusBox').css({
+            "display": "block",
+            "position": "fixed",
+            "top": "50%",
+            "left": "40%"
+        })
+    }
+    else if($(this).is(":not(:checked)")){
+        console.log("Checkbox is unchecked.");
+        $('#changeStatusBox').hide()
+    }
+}
+
 $(document).ready(function(){
 
     //to create a new task
@@ -144,12 +161,17 @@ $(document).ready(function(){
         event.preventDefault();
     })
 
+    //$('#changeStatusBox').hide()
+
     //GET ALL THE TASKS WHEN PAGE RELOADS TO DISPLAY THE TASKS
     getAllTasks((data)=>{displayAllTasks(data)})
 
     //to delete a task,
     //using event-delegation to make sure the delete functionality works
     $('#displayTasks').on('click', '.delete-button', deleteTask)
+
+    //to select a task
+    $('#displayTasks').on('change', '.checkbox', changeStatus)
 
     //to delete all tasks
     $('#delete-all-tasks').click(deleteAllTasks)
@@ -159,5 +181,10 @@ $(document).ready(function(){
 
     //when an option is changed in display drop down
     $('#displaycategorywise').change(displayCategorywise)
+
+    $('#changeStatusBox').click(()=>{
+        $('#changeStatusBox').hide();
+        $('.checkbox').prop('checked', true);
+    })
 })
 
