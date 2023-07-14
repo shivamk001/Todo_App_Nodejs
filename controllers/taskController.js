@@ -79,7 +79,6 @@ module.exports.allTasks=async (req, res)=>{
         let sortBy=req.query.sortBy
         let allTasks=null;
         if(sortBy==undefined || sortBy=='latestfirst'){
-            console.log('LATEST FIRST')
             allTasks=await Task.find({}).sort({'createdAt': 'desc'})
         }
         else{
@@ -98,6 +97,32 @@ module.exports.allTasks=async (req, res)=>{
         console.log('ERROR IN GETTING ALL TASKS:', err)
         return res.status(400).json({
             message:'Cannot get all tasks',
+        })
+    }
+}
+
+module.exports.editTask=async (req, res)=>{
+    try{
+        //console.log('In EditTask:', req.body)
+
+        //find the doc if exists
+        let task=await Task.findById(req.body.id);
+        
+        if(task){
+            // Update the document
+            const update={status: req.body.status}
+            await task.updateOne(update)
+
+            return res.status(200).json({
+                message:'Task updated successfully',
+                id: req.body.id
+            })
+        }
+    }
+    catch(err){
+        console.log('ERROR IN UPDATION TASKS:', err)
+        return res.status(400).json({
+            message:'Cannot edit tasks',
         })
     }
 }
