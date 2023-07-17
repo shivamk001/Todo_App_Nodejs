@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')
 
-const userSchema=mongoose.model({
+const userSchema=mongoose.Schema({
     email:{
         type: String, 
         required: true, 
@@ -17,8 +17,7 @@ const userSchema=mongoose.model({
     avatar:{
         type: String
     }
-},
-{
+},{
     timestamps: true
 })
 
