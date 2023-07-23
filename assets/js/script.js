@@ -1,4 +1,4 @@
-import { sortBy, changeStatus,deleteAllTasks, deleteTask, displayAllTasks, displayCategorywise, displayStatuswise, getAllTasks } from "./functions.js"
+import { sortBy, changeStatus,deleteAllTasks, deleteTask, displayCategorywise, displayStatuswise, getAllTasks } from "./functions.js"
 
 
 $(document).ready(function(){
@@ -13,32 +13,43 @@ $(document).ready(function(){
         $('#createTaskForm').trigger("reset");
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8000/task/add',
+            url: 'http://localhost:8000/user/authenticated/task/add',
             data: JSON.stringify(formData),
             contentType: 'application/json',
             dataType: 'json',
-            encode: true
-        }).done(function(data){
-            sortBy()
-            new Noty({
-                type: 'success',
-                text: data.message,
-                layout: 'topRight',
-                theme: 'nest',
-                timeout: 2000,
-                progressBar: true,
-                closeWith: ['click']
-            }).show()
-        }).fail(function(err){
-            new Noty({
-                type: 'error',
-                text: err.message,
-                layout: 'topRight',
-                theme: 'nest',
-                timeout: 2000,
-                progressBar: true,
-                closeWith: ['click']
-            }).show()
+            encode: true,
+            success: function(data){
+                console.log('task created')
+                getAllTasks()
+                console.log('Calling sortby')
+                sortBy()
+                console.log('23 script:', data.message)
+                
+                new Noty({
+                    type: 'success',
+                    text: data.message,
+                    layout: 'topRight',
+                    theme: 'nest',
+                    timeout: 2000,
+                    progressBar: true,
+                    closeWith: ['click']
+                }).show()
+            },
+            error: function(jqXHR, textStatus, error){
+                console.log('34 script:', jqXHR)
+                console.log('34 script:', textStatus)
+                console.log('34 script:', error)
+                let text=jqXHR.status==401?'Session expired. Logout and login again': error
+                new Noty({
+                    type: 'error',
+                    text: text,
+                    layout: 'topRight',
+                    theme: 'nest',
+                    timeout: 2000,
+                    progressBar: true,
+                    closeWith: ['click']
+                }).show()
+            }
         })
 
         event.preventDefault();
@@ -55,16 +66,18 @@ $(document).ready(function(){
         if(value!=undefined){
             $.ajax({
                 type: 'PATCH',
-                url: 'http://localhost:8000/task/edit',
+                url: 'http://localhost:8000/user/authenticated/task/edit',
                 data: JSON.stringify({status: value, id: id}),
                 contentType: 'application/json',
                 dataType: 'json',
-                encode: true
-            }).done(function(data){
+                encode: true,
+                success: (function(data){
                 //console.log('Task Updated:',data)
 
                 //getAllTasks((d)=>{displayAllTasks(d)})
+                getAllTasks()
                 sortBy()
+                console.log('70 script:', data.message)
                 new Noty({
                     type: 'success',
                     text: data.message,
@@ -74,7 +87,9 @@ $(document).ready(function(){
                     progressBar: true,
                     closeWith: ['click']
                 }).show()
-            }).fail(function(err){
+            }),
+                error: (function(err){
+                console.log('81 script:', err)
                 new Noty({
                     type: 'error',
                     text: err.message,
@@ -85,6 +100,7 @@ $(document).ready(function(){
                     closeWith: ['click']
                 }).show()
             })
+        })
         }
     })
 
@@ -118,7 +134,8 @@ $(document).ready(function(){
     //GET ALL THE TASKS WHEN PAGE RELOADS TO DISPLAY THE TASKS
     
     
-    getAllTasks((data)=>{displayAllTasks(data)})
+    getAllTasks()
+    //displayAllTasks()
 
     //to delete a task,
     //using event-delegation to make sure the delete functionality works
@@ -126,6 +143,8 @@ $(document).ready(function(){
 
     //to select a task
     $('#displayTasks').on('change', '.checkbox', changeStatus)
+
+    $('#get-all-tasks').on('click', getAllTasks)
 
     //to delete all tasks
     $('#delete-all-tasks').click(deleteAllTasks)

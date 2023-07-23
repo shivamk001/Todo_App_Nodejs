@@ -5,9 +5,27 @@ const app=express()
 const port=8000
 const routes=require('./routes')
 const cookieParser=require('cookie-parser')
+const session=require('express-session')
+const bp = require('body-parser')
+const db=require('./config/mongoose')
+const MongoStore = require('connect-mongo');
+
+//session
+app.use(session({
+    name: 'todolist_session',//name of cookie
+    secret: 'foobar',
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: 'mongodb://127.0.0.1/todolist'
+    }),
+    cookie: { maxAge: 60000, path: '/user/authenticated', httpOnly: true }
+    //maxage is in miliseconds
+    //path: where the session will be created 
+}))
 
 //mongoose
-require('./config/mongoose')
+//require('./config/mongoose')
 
 app.set('view engine', 'ejs')
 app.set('views', './views')
@@ -16,16 +34,19 @@ app.set('views', './views')
 app.use(cookieParser())
 
 //layout support for ejs
-app.use(expressLayouts)
+//app.use(expressLayouts)
 //to use the styleshee mentioned in file
-app.set('layout extractStyles', true);
+//app.set('layout extractStyles', true);
 //to place all the script blocks at the end
-app.set('layout extractScripts', true);
+//app.set('layout extractScripts', true);
+
+
 app.use(express.static(path.join(__dirname,'assets/')))
 
 //req.body created in req object through this middleware
 app.use(express.urlencoded({ extended: true }));
-
+app.use(bp.json())
+app.use(bp.urlencoded({ extended: true }))
 
 app.use('/', routes)
 

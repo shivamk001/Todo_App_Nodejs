@@ -1,12 +1,17 @@
+
+
 const Noty=window.Noty;
+let allTasks;
 
 //display all tasks
 export function displayAllTasks(tasks){
+    console.log('tasks:', tasks)
     $(`#taskTableBody`).empty()
     //console.log('ALL TASKS:', tasks)
     //let tasks=data.allTasks
 
     tasks.forEach(task=>{
+        //console.log(task)
         let row=$('<tr>', { id: task._id }).addClass('taskRow')
         row.append($(`
             <td> <input type="checkbox" class="checkbox" data-id="${task._id}" name="checkbox"></td>
@@ -22,10 +27,11 @@ export function displayAllTasks(tasks){
 }
 
 //get all tasks and display the tasks
-export async function getAllTasks(callback){
+export async function getAllTasks(e){
+    console.log('CLICKED')
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8000/task/all',
+        url: 'http://localhost:8000/user/authenticated/task/all',
         //both passed as parameters
         //data: {sortBy: sortBy, category: category},
         //data: `sortBy=${sortBy}`,
@@ -33,12 +39,18 @@ export async function getAllTasks(callback){
         dataType: 'json',
         encode: true,
         success: function(data){
-            callback(data.allTasks)
+            allTasks=data.allTasks
+            displayAllTasks(allTasks)
+            
         },
         error: function(jqXHR, textStatus, error){
+            console.log('40 function:', jqXHR)
+            console.log('40 function:', textStatus)
+            console.log('40 function:', error)
+            let text=jqXHR.status==401?'Session expired. Logout and login again': error
             new Noty({
                 type: 'error',
-                text: error,
+                text: text,
                 layout: 'topRight',
                 theme: 'nest',
                 timeout: 2000,
@@ -47,7 +59,6 @@ export async function getAllTasks(callback){
             }).show()
         }
      })
-    
 }
 
 //delete a task
@@ -55,7 +66,7 @@ export function deleteTask(e){
     let data_id=e.target.getAttribute('data-id')
     //console.log('DATA_ID:', data_id)
     $.ajax({
-        url: 'http://localhost:8000/task/delete',
+        url: 'http://localhost:8000/user/authenticated/task/delete',
         type: 'DELETE',
         contentType: 'application/json',
         dataType: 'json',
@@ -63,6 +74,7 @@ export function deleteTask(e){
         success: function(data){
             //console.log(data)
             $(`#${data_id}`).remove()
+            console.log('68 function:', data.message)
             new Noty({
                 type: 'success',
                 text: data.message,
@@ -72,8 +84,10 @@ export function deleteTask(e){
                 progressBar: true,
                 closeWith: ['click']
             }).show()
+            getAllTasks()
         },
         error: function(jqXHR, textStatus, error){
+            console.log('80 function:', error)
             new Noty({
                 type: 'error',
                 text: error,
@@ -91,11 +105,12 @@ export function deleteTask(e){
 export function deleteAllTasks(){
     //console.log('DELETE ALL TASKS')
     $.ajax({
-        url: 'http://localhost:8000/task/deleteAll',
+        url: 'http://localhost:8000/user/authenticated/task/deleteAll',
         type: 'DELETE',
         success: function(data){
             //console.log(data)
             $(`#displayTasks`).empty()
+            console.log('103 function:', data.message)
             new Noty({
                 type: 'success',
                 text: data.message,
@@ -105,8 +120,10 @@ export function deleteAllTasks(){
                 progressBar: true,
                 closeWith: ['click']
             }).show()
+            getAllTasks()
         },
         error: function(jqXHR, textStatus, error){
+            console.log('115 function:', error)
             new Noty({
                 type: 'error',
                 text: error,
@@ -122,23 +139,28 @@ export function deleteAllTasks(){
 
 //sort
 export async function sortBy(e){
-    //console.log('Sort by function clicked', e!=undefined?e.target.value:'latestfirst')
+    console.log('Sort by function clicked', e!=undefined?e.target.value:'latestfirst')
     let sortBy=e!=undefined?e.target.value:'latestfirst'
+    console.log('ALLTASKS LENGTH:', allTasks.length, sortBy)
     //let allTasks=(await getAllTasks()).allTasks
     if(sortBy=='latestfirst'){
         //sort in desc order
-        getAllTasks((allTasks)=>{
-            displayAllTasks(allTasks.sort(
-                (a,b)=>{return (new Date(b.createdAt))-(new Date(a.createdAt))}
-            ))
-        })
+        // getAllTasks((allTasks)=>{
+        //     displayAllTasks(allTasks.sort(
+        //         (a,b)=>{return (new Date(b.createdAt))-(new Date(a.createdAt))}
+        //     ))
+        // })
+        console.log('Sort Latest First')
+        displayAllTasks(allTasks.sort((a,b)=>{return (new Date(b.createdAt))-(new Date(a.createdAt))}))
     }
     else{
-        getAllTasks((allTasks)=>{
-            displayAllTasks(allTasks.sort(
-                (a,b)=>{return (new Date(a.createdAt))-(new Date(b.createdAt))}
-            ))
-        })
+        // getAllTasks((allTasks)=>{
+        //     displayAllTasks(allTasks.sort(
+        //         (a,b)=>{return (new Date(a.createdAt))-(new Date(b.createdAt))}
+        //     ))
+        // })
+        console.log('Sort Oldest First')
+        displayAllTasks(allTasks.sort((a,b)=>{return (new Date(a.createdAt))-(new Date(b.createdAt))}))
     }
 }
 
@@ -146,17 +168,21 @@ export async function sortBy(e){
 export async function displayCategorywise(e){
     //console.log('Display by function clicked', e.target.value)
     let category=e.target.value
-
+    console.log('DISPLAYCATEGORYWISE')
     if(category!='all'){
-        getAllTasks((allTasks)=>{
-            //console.log('filtered tasks:', allTasks.filter(task=>{return task.category==category}))
-            displayAllTasks(allTasks.filter(task=>{return task.category==category}))
-        })
+        // getAllTasks((allTasks)=>{
+        //     //console.log('filtered tasks:', allTasks.filter(task=>{return task.category==category}))
+        //     displayAllTasks(allTasks.filter(task=>{return task.category==category}))
+        // })
+        console.log('DISPLAY CATEGORYWISE filtered tasks:', allTasks.filter(task=>{return task.category==category}))
+        displayAllTasks(allTasks.filter(task=>{return task.category==category}))
     }
     else{
-        getAllTasks((allTasks)=>{
-            displayAllTasks(allTasks)
-        })
+        // getAllTasks((allTasks)=>{
+        //     displayAllTasks(allTasks)
+        // })
+        console.log('DISPLAY ALL')
+        displayAllTasks(allTasks)
     }
 }
 
@@ -164,17 +190,20 @@ export async function displayCategorywise(e){
 export async function displayStatuswise(e){
     //console.log('Display by status function clicked: ', e.target.value)
     let status=e.target.value
-
+    console.log('DISPLAYSTATUSWISE')
     if(status!='All'){
-        getAllTasks((allTasks)=>{
-            //console.log('filtered tasks:', allTasks.filter(task=>{return task.status==status}))
-            displayAllTasks(allTasks.filter(task=>{return task.status==status}))
-        })
+        // getAllTasks((allTasks)=>{
+        //     console.log('filtered tasks:', allTasks.filter(task=>{return task.status==status}))
+        //     displayAllTasks(allTasks.filter(task=>{return task.status==status}))
+        // })
+        console.log('filtered tasks:', allTasks.filter(task=>{return task.status==status}))
+        displayAllTasks(allTasks.filter(task=>{return task.status==status}))
     }
     else if(status=='All'){
-        getAllTasks((allTasks)=>{
-            displayAllTasks(allTasks)
-        })
+        // getAllTasks((allTasks)=>{
+        //     displayAllTasks(allTasks)
+        // })
+        displayAllTasks(allTasks)
     }
 }
 

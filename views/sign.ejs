@@ -1,0 +1,27 @@
+<h4>Login</h4>
+<% if(message!=undefined){ %>
+    <p><%= message %></p>
+<% } %>
+<form id="signinForm" action="/user/loginUser" method="POST">
+    <label for="email">Email:</label>
+    <input type="text" id="email_signin" name="email" placeholder="Enter your email">
+    <label for="password">Password:</label>
+    <input type="password" id="password_signin" name="password" placeholder="Enter your password">
+    <input type="submit">
+</form>
+
+<h4>Signup</h4>
+<% if(message!=undefined){ %>
+    <p><%= message %></p>
+<% } %>
+<form id="signupForm" action="/user/createAccount" method="POST">
+    <label for="email">Email:</label>
+    <input type="text" id="email_signup" name="email" placeholder="Enter your email">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Enter your name">
+    <label for="password">Password:</label>
+    <input type="password" id="password_signup" name="password" placeholder="Enter your password">
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Reenter password">
+    <input type="submit">
+</fpassword

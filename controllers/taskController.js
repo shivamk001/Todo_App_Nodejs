@@ -3,12 +3,13 @@ const Task=require('../models/task')
 module.exports.addTask=async (req, res)=>{
     try{
         console.log('Add task:',  req.body)
+        console.log('ALLTASKS USER:', req.session.user)
         let newTask=await Task.create({
                     description: req.body.description, 
                     category: req.body.category, 
                     dueDate: req.body.date
                 })
-        console.log(newTask, newTask.date instanceof Date)
+        //console.log(newTask, newTask.date instanceof Date)
         let allTasks=await Task.find({})
         if(req.xhr){
             return res.status(200).json({
@@ -57,7 +58,7 @@ module.exports.deleteAllTasks=async (req, res)=>{
         //first check if the task exists
         let task=await Task.find({});
         let len=task.length
-        console.log(len)
+        //console.log(len)
         await Task.deleteMany({ });
 
         return res.status(200).json({
@@ -75,16 +76,9 @@ module.exports.deleteAllTasks=async (req, res)=>{
 
 module.exports.allTasks=async (req, res)=>{
     try{
-        //console.log('ALL TASKS req.body:', req.query)
-        let sortBy=req.query.sortBy
-        let allTasks=null;
-        if(sortBy==undefined || sortBy=='latestfirst'){
-            allTasks=await Task.find({}).sort({'createdAt': 'desc'})
-        }
-        else{
-            console.log('OLDEST FIRST')
-            allTasks=await Task.find({}).sort({'createdAt': 'asc'})
-        }
+        console.log('ALLTASKS USER:', req.session.user)
+        let allTasks=await Task.find({}).sort({'createdAt': 'desc'})
+        console.log('ALLTASKS:', allTasks.length)
         
         if(req.xhr){
             return res.status(200).json({
