@@ -17,17 +17,39 @@
     <title>Todo App</title>
 </head>
 <body>
-    <h4>Sign In</h4>
-    <% if(message!=undefined){ %>
-        <p><%= message %></p>
-    <% } %>
-    <form id="signinForm" action="/user/loginUser" method="POST">
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" placeholder="Enter your email">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password">
-        <input type="submit">
-    </form>
-    <p>New?<a href="/user/signup">Sign Up</a></p>
+    <div class="signMain">
+        <div class="loginHeading">
+            <h2>Sign In</h2>
+            <!-- <% if(message!=undefined){ %> -->
+                <small><%= message!=undefined?message:'' %></small>
+            <!-- <% } %> -->
+        </div>
+
+            <form id="signinForm"  action="/user/loginUser" method="POST">
+
+                    <div class="label">
+                        <p>Email:</p>
+                    </div>
+                    <div class="input">
+                        <input type="text" id="email" name="email" placeholder="Enter your email">
+                    </div>
+
+                    <div class="label">
+                        <p>Password:</p>
+                    </div>
+                    <div class="input">
+                        <input type="password" id="password" name="password" placeholder="Enter your password">
+                    </div>
+    
+                    <div class="submit_button">
+                        <input type="submit">
+                    </div>
+            </form>
+            <div>
+                <p>New?<a href="/user/signup">Sign Up</a></p>
+            </div>
+        
+    </div>
+
 </body>
 </html>

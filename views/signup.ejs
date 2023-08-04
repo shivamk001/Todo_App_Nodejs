@@ -17,20 +17,52 @@
     <title>Todo App</title>
 </head>
 <body>
-    <h4>Sign Up</h4>
-    <% if(message!=undefined){ %>
-        <p><%= message %></p>
-    <% } %>
-    <form id="signupForm" action="/user/createAccount" method="POST">
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" placeholder="Enter your email">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" placeholder="Enter your name">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password">
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Reenter password">
-        <input type="submit">
-    </form>
+    <div class="signMain">
+        <div class="loginHeading">
+            <h2>Sign Up</h2>
+            <!-- <% if(message!=undefined){ %> -->
+                <small><%= message!=undefined?message:'' %></small>
+            <!-- <% } %> -->
+        </div>
+
+        <form id="signupForm" action="/user/createAccount" method="POST">
+            <div class="label">
+                <p>Email</p>
+            </div>
+            <div class="input">
+                <input type="text" id="email" name="email" placeholder="Enter your email">
+            </div>
+            
+            <div class="label">
+                <p>Name</p>
+            </div>
+            <div class="input">
+                <input type="text" id="name" name="name" placeholder="Enter your name">
+            </div>
+            
+    
+            <div class="label">
+                <p>Password</p>
+            </div>
+            <div class="input">
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+            </div>
+            
+            <div class="label">
+                <p>Confirm Password</p>
+            </div>
+            <div class="input">
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Reenter password">
+            </div>
+            
+            <div class="submit_button">
+                <input type="submit">
+            </div>
+        </form>
+        <div>
+            <p>Already a user?<a href="/user/signin">Sign In</a></p>
+        </div>
+    </div>
+
 </body>
 </html>

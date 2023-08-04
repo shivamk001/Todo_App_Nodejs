@@ -1,5 +1,4 @@
 const express=require('express');
-const expressLayouts=require('express-ejs-layouts')
 const path=require('path')
 const app=express()
 const port=8000
@@ -33,12 +32,6 @@ app.set('views', './views')
 //parse cookie header in request and populates req.cookies
 app.use(cookieParser())
 
-//layout support for ejs
-//app.use(expressLayouts)
-//to use the styleshee mentioned in file
-//app.set('layout extractStyles', true);
-//to place all the script blocks at the end
-//app.set('layout extractScripts', true);
 
 
 app.use(express.static(path.join(__dirname,'assets/')))

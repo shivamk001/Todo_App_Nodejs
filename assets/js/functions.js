@@ -61,6 +61,59 @@ export async function getAllTasks(e){
      })
 }
 
+//create a task
+export function createTask(event){
+    console.log('CLICKED')
+    let formData={
+        description: $('#description').val(),
+        category: $('#category').val(),
+        date: $('#date').val()
+    }
+    $('#createTaskForm').trigger("reset");
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8000/user/authenticated/task/add',
+        data: JSON.stringify(formData),
+        contentType: 'application/json',
+        dataType: 'json',
+        encode: true,
+        success: function(data){
+            console.log('task created')
+            getAllTasks()
+            console.log('Calling sortby')
+            sortBy()
+            console.log('23 script:', data.message)
+            
+            new Noty({
+                type: 'success',
+                text: data.message,
+                layout: 'topRight',
+                theme: 'nest',
+                timeout: 2000,
+                progressBar: true,
+                closeWith: ['click']
+            }).show()
+        },
+        error: function(jqXHR, textStatus, error){
+            console.log('34 script:', jqXHR)
+            console.log('34 script:', textStatus)
+            console.log('34 script:', error)
+            let text=jqXHR.status==401?'Session expired. Logout and login again': error
+            new Noty({
+                type: 'error',
+                text: text,
+                layout: 'topRight',
+                theme: 'nest',
+                timeout: 2000,
+                progressBar: true,
+                closeWith: ['click']
+            }).show()
+        }
+    })
+
+    event.preventDefault();
+}
+
 //delete a task
 export function deleteTask(e){
     let data_id=e.target.getAttribute('data-id')
@@ -207,6 +260,56 @@ export async function displayStatuswise(e){
     }
 }
 
+
+export function changeStatusForm(event){
+    let value=$("input[type='radio'][name='status']:checked").val()
+    event.preventDefault();
+    let id=$('#changeStatusForm').attr('data-id')
+    //console.log(value, id)
+    $('#changeStatusBox').hide();
+    $('.checkbox').prop('checked', false);
+    $('#changeStatusForm').trigger("reset");
+    if(value!=undefined){
+        $.ajax({
+            type: 'PATCH',
+            url: 'http://localhost:8000/user/authenticated/task/edit',
+            data: JSON.stringify({status: value, id: id}),
+            contentType: 'application/json',
+            dataType: 'json',
+            encode: true,
+            success: (function(data){
+            //console.log('Task Updated:',data)
+
+            //getAllTasks((d)=>{displayAllTasks(d)})
+            getAllTasks()
+            sortBy()
+            console.log('70 script:', data.message)
+            new Noty({
+                type: 'success',
+                text: data.message,
+                layout: 'topRight',
+                theme: 'nest',
+                timeout: 2000,
+                progressBar: true,
+                closeWith: ['click']
+            }).show()
+        }),
+            error: (function(err){
+            console.log('81 script:', err)
+            new Noty({
+                type: 'error',
+                text: err.message,
+                layout: 'topRight',
+                theme: 'nest',
+                timeout: 2000,
+                progressBar: true,
+                closeWith: ['click']
+            }).show()
+        })
+    })
+    }
+}
+
 //change status
 export function changeStatus(e){
     if($(this).is(":checked")){
@@ -225,4 +328,11 @@ export function changeStatus(e){
         //console.log("Checkbox is unchecked.");
         $('#changeStatusBox').hide()
     }
+}
+
+export function closeButton(){
+
+    $('#changeStatusBox').hide();
+    $('.checkbox').prop('checked', false);
+
 }
