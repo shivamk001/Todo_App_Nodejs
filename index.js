@@ -1,7 +1,8 @@
 const express=require('express');
 const path=require('path')
 const app=express()
-const port=8000
+require('dotenv').config()
+const port=process.env.PORT||8438
 const routes=require('./routes')
 const cookieParser=require('cookie-parser')
 const session=require('express-session')
@@ -16,7 +17,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-        mongoUrl: 'mongodb://127.0.0.1/todolist'
+        mongoUrl: process.env.MONGOOSEDB
     }),
     cookie: { maxAge: 60000, path: '/user/authenticated', httpOnly: true }
     //maxage is in miliseconds

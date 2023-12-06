@@ -1,11 +1,12 @@
 const mongoose=require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1/todolist');
+let mongoConnectionString=process.env.MONGOOSEDB
+mongoose.connect(mongoConnectionString);
 
 const db=mongoose.connection
 
 db.on('error', console.error.bind(console, 'Error connecting to MongoDB'))
 
 db.once('open', function(){
-    console.log(`Connected to Database:: MongoDB`)
+    console.log(`Connected to Database:: MongoDB: ${mongoConnectionString}`)
 })

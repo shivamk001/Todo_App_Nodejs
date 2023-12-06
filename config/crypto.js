@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 
-const algorithm = 'aes-256-ctr'
-const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
+const algorithm = process.env.ALGORITM
+const secretKey = process.env.SECRETKEY
 
 module.exports.encrypt = function(text){
   const iv = crypto.randomBytes(16)
